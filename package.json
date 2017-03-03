@@ -1,0 +1,29 @@
+{
+  "name": "angular-bilancio",
+  "version": "1.0.0",
+  "description": "angular app for bilancio ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PriyaSuriyamurthi/angular-bilancio.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PriyaSuriyamurthi/angular-bilancio/issues"
+  },
+  "homepage": "https://github.com/PriyaSuriyamurthi/angular-bilancio#readme",
+  "dependencies": {
+    "angular": "^1.6.2",
+    "angular-ui-router": "^0.4.2",
+    "bootstrap": "^3.3.7",
+    "gulp": "^3.9.1",
+    "jquery": "^3.1.1"
+  },
+  "devDependencies": {
+    "gulp-inject": "^4.2.0"
+  }
+}
