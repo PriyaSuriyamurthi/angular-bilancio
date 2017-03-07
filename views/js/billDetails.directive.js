@@ -2,24 +2,16 @@ function billDetails() {
 	
 	return {
 		restrict: 'E',
+        scope:{},
+        bindToController: {
+        data:'='
+        },
         controller:'BillController as bill',
 		template: `
                     <div class="bill">
-                    <h1 class="page-header">Bill for the month</h1>
                     <div class="row placeholders ">
-                        <div class="col-xs-5 col-sm-2 placeholder placeholder1-color">
-                            <h4>Label</h4>
-                            <span class="text-muted">Something else</span>
-                        </div>
-                        <div class="col-xs-5 col-sm-2 placeholder placeholder2-color">
-                            <h4>Label</h4>
-                            <span class="text-muted">Something else</span>
-                        </div>
-                        <div class="col-xs-5 col-sm-2 placeholder placeholder3-color">
-                            <h4>Label</h4>
-                            <span class="text-muted">Something else</span>
-                        </div>
-                        <div class="col-xs-5 col-sm-2 placeholder placeholder4-color">
+
+                        <div class="col-xs-5 col-sm-2 placeholder" ng-style="{background:bill.getRandomColor(bill)}">
                             <h4>Label</h4>
                             <span class="text-muted">Something else</span>
                         </div>
@@ -27,13 +19,9 @@ function billDetails() {
                     <h2 class="sub-header">Bill Details</h2>
                     <div class="table-responsive">
                         <table class="table table-striped" >
-                            <thead>
-                                <tr>
-                                    <th>Select</th>
-                                    <th>BillType</th>
-                                    <th>Description</th>
-                                    <th>Item-Amount</th>
-                                    <th>Date</th>
+                            <thead >
+                                <tr >
+                                    <th ng-repeat="header in bill.data">{{header | uppercase}}</th>
                                 </tr>
                             </thead>
                             <tbody >

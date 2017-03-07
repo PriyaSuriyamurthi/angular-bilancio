@@ -10,6 +10,8 @@ body
 {
     padding-top: 50px;
     background-image: url("../images/budget.jpg");
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px;
 }
 
 /*
@@ -177,14 +179,13 @@ color: antiquewhite;
 
 .placeholders
 {
+    padding-left: 30px;
     margin-bottom: 30px;
     text-align: center;
 }
 
-.placeholders h4
-{
-    margin-bottom: 0;
-
+.placeholderAdd {
+    background-color: #27ae60;
 }
 
 .placeholder
@@ -200,30 +201,6 @@ color: antiquewhite;
     box-shadow: -1px 1px 5px 0px rgba(0,0,0,0.75);
 }
 
-.placeholder1-color
-{
-    background-color: #1cb39e;
-    border-color: #1cb39e;
-
-}
-
-.placeholder2-color
-{
-    background-color: #df5350;
-    border-color: #df5350;
-}
-
-.placeholder3-color
-{
-    background-color: #448fd0;
-    border-color: #448fd0;
-}
-
-.placeholder4-color
-{
-    background-color: #212323;
-    border-color: #212323;
-}
 
 .navbar
 {

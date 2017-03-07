@@ -1,2 +1,2 @@
 angular
-.module('bilancio',[]);
+.module('bilancio',['ui.router']);
