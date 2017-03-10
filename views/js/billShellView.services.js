@@ -10,9 +10,15 @@ function BillShellService($http) {
 			return response.data;
 		});
 	}
+	var deleteshell = function(shellID) {
+		return $http.delete(API+"/"+shellID).then(function(response) {
+			return response.data
+		});
+	}
 	return {
 		retrieve: retrieve,
-		create: create
+		create: create,
+		deleteshell: deleteshell
 	};
 
 }

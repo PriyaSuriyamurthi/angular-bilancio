@@ -1,28 +1,45 @@
-function BillController(BillService) {
+function BillController(BillService,$stateParams,$scope,$state) {
 	var ctrl = this;
+	ctrl.shellID = $stateParams.shellID;
 	ctrl.billList = [];
-	this.fetchBills = function() {
-		BillService
-		.retrieve()
-		.then(function(response) {
-			ctrl.billList = response;
-		})
-	}
-	this.getRandomColor = function(item){
-		var colors = ['#DF3D82','#C1E1A6','#404040',
-					  '#4A96AD','#1cb39e', '#df5350', 
-					  '#448fd0', '#212323', '#C63D0F',
-					  '#E9E581','#7D1935'];
+	ctrl.filteredList = [];
+	ctrl.currentPage = 1;
+	ctrl.numPerPage = 10;
+	ctrl.maxsize = ctrl.billList.length/10;
+	console.log(ctrl.shellID);
+	ctrl.getRandomColor = function(item,index) {
+		var colors = ['#3175b0','#58b358','#52bcdc',
+					  '#efa741','#d24844'];
 		var color = "";
 		if(item.color) {
 			return item.color;
 		}
 	     
-	           color += colors[Math.floor(Math.random() * colors.length)];
+	           color += colors[index%colors.length];
 	           item.color = color;
 	           return color;	             
+   	 	}
+   	$scope.toggleModal = function(btnClicked){
+        $scope.buttonClicked = btnClicked;
+        $scope.showModal = !$scope.showModal;
     }
-	this.fetchBills();
+  
+	ctrl.fetchBills = function() {
+		ctrl.billList.length=0;
+		BillService
+		.retrieve(this.shellID)
+		.then(function(response) {
+			ctrl.billList = response;
+			$scope.$watch('currentPage + numPerPage',function(){
+				 var begin = ((ctrl.currentPage - 1) * ctrl.numPerPage)
+		    		,end = begin + ctrl.numPerPage;
+		    	ctrl.filteredList = ctrl.billList.slice(begin,end);
+			})
+		})
+	}
+	
+	
+	ctrl.fetchBills();
 }
 angular
 .module('bilancio')

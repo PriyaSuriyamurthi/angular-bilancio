@@ -9,9 +9,9 @@
 body
 {
     padding-top: 50px;
-    background-image: url("../images/budget.jpg");
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 15px;
+    color : #337ab7;
 }
 
 /*
@@ -34,72 +34,20 @@ body
     border: 0;
 }
 
-/*
- * Sidebar
- */
 
-@media (min-width: 768px)
-{
-    .sidebar
-    {
-        position: fixed;
-        top: 50px;
-        bottom: 0;
-        left: 0;
-        z-index: 1000;
-        display: block;
-        padding: 20px;
-        overflow-x: hidden;
-        overflow-y: auto;
-        background-color: #f5f5f5;
-        border-right: 1px solid #0f0f0f;
-    }
-}
-
-@media (max-width: 767px)
-{
-    .sidebar
-    {
-       
-   background-color: #f5f5f5;
-        border-right: 1px solid #0f0f0f;
-  
-    }
-}
-.bills-option{
-      position: static;
-      float: none;
-      width: auto;
-      margin-top: 0;
-      background-color: transparent;
-      border: 0;
-      -webkit-box-shadow: none;
-      box-shadow: none;
-      
-    }
-
-.bills-option > li > a {
-    color: #7d1935;
-    font-size: 15px;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-/* Sidebar navigation */
-
-.nav-sidebar
-{
-    margin-right: -21px;
-    margin-bottom: 20px;
-    margin-left: -20px;
-}
 
 thead {
-    background-color: #7D1935;
+    background-color: #4867aa;
     color: white;
+    font-size: 12px;
 }
 tbody {
     font-size: 12px;
 }
 
+.billMessage { 
+    color: #d24844;
+}
 
 .table {
   margin: 10px 20px 40px 10px;
@@ -109,40 +57,13 @@ tbody {
 }
 
 
-.table-striped > tbody > tr:nth-child(odd) {
-    background-color: #F5F3EE;
-}
-
-.table-striped > tbody > tr:nth-child(even) {
-    background-color: #fff;
-}
-
-.nav-sidebar > li > a,
-.nav-sidebar > li > .bills-option,
-.nav-sidebar > li > h4
-{
-    padding-right: 20px;
-    padding-left: 20px;
-    color: #212323;
-    font-size: 15px;
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-.nav-sidebar > li > .bills-option {
-    padding-left: 30px;
-    list-style: none;
-}
-
 .nav .open > a,
 .nav .open > a:hover, 
 .nav .open > a:focus,
 .nav > li > a:hover,
-.nav > li > a:focus,
-.bills-option > li > a:hover,
-.bills-option > li > a:focus  {
+.nav > li > a:focus
+{
     text-decoration: none;
-    background-color: #474747;
-    color: #e9e7e8;
 }
 
 /*
@@ -171,7 +92,9 @@ tbody {
 .main .page-header,
 .main .sub-header
 {
-color: antiquewhite;
+color: #337ab7;
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 18px;
 }
 /*
  * Placeholder dashboard ideas
@@ -184,8 +107,38 @@ color: antiquewhite;
     text-align: center;
 }
 
+.placeholders p {
+    font-size: 15px;
+    color: white;
+    text-align: left;
+}
+
+.placeholders >.alert {
+    padding: 0px;
+}
+
+#btn-alert {
+    background-color: #d9edf7;
+}
+
 .placeholderAdd {
-    background-color: #27ae60;
+    margin-bottom: 20px;
+    height: 120px;
+    border-radius: 5px;
+    margin: 30px 10px 30px 0px;
+    color: white;
+    width: 23%;
+    -webkit-box-shadow: -1px 1px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: -1px 1px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: -1px 1px 5px 0px rgba(0,0,0,0.75);
+    background-color: #4c4c4c;
+}
+
+.placeholderAdd input {
+
+    color: #191919;
+    box-shadow: 10px 10px 70px #000000;
+    border: solid 1px;
 }
 
 .placeholder
@@ -196,23 +149,42 @@ color: antiquewhite;
     margin: 30px 10px 30px 0px;
     color: white;
     width: 23%;
+    font-size: 15px;
     -webkit-box-shadow: -1px 1px 5px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: -1px 1px 5px 0px rgba(0,0,0,0.75);
     box-shadow: -1px 1px 5px 0px rgba(0,0,0,0.75);
 }
-
-
-.navbar
-{
-    background: #191919;
+.placeholder:hover {
+    
+    box-shadow: 0px 0px 30px #000000;
+    z-index: 2;
+    -webkit-transition: all 200ms ease-in;
+    -webkit-transform: scale(1.5);
+    -ms-transition: all 200ms ease-in;
+    -ms-transform: scale(1.5);   
+    -moz-transition: all 200ms ease-in;
+    -moz-transform: scale(1.5);
+    transition: all 200ms ease-in;
+    transform: scale(1.1);
+}
+.placeholder i {
+    padding-left: 95%;
+    color: #f5f5f5;
 }
 
-#navbar li a
-{
-	font-family: "futura-pt", Arial, sans-serif !important;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
+.placeholder p,
+.placeholder a
+ {
+    text-align: center;
+    color:#fff;
 }
 
-
+@media (max-width: 767px)
+{
+    .placeholder,
+    .placeholderAdd
+    {
+        width: 80%;
+    }
+}
 

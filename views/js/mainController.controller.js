@@ -1,5 +1,6 @@
-function mainController() {
-	this.billHeader =['select','billType','description','itemAmount','date'];
+function mainController($stateParams) {
+	this.billHeader =['billType','description','itemAmount','date','action'];
+	this.shellID = $stateParams.shellID;
 }
 angular
 .module('bilancio')

@@ -8,6 +8,9 @@ angular
 			})
 			.state('billView', {
 				url: '/billView',
+				params: {
+					shellID:'65756'		
+				},
 				controller: 'MainController as main',
 				templateUrl: 'view/billView.html'
 			})

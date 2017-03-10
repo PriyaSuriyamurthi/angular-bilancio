@@ -1,2 +1,3 @@
 angular
-.module('bilancio',['ui.router']);
+.module('bilancio',['ui.router', 'ui.bootstrap']);
+
