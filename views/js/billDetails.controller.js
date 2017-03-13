@@ -93,6 +93,7 @@ function BillController(BillService,$stateParams,$scope,$state,$filter) {
 		})	
 	}
 	ctrl.listFilter = function() {
+		ctrl.filteredList.length = 0;
 		$scope.$watch('currentPage + numPerPage',function(){
 				var begin = ((ctrl.currentPage - 1) * ctrl.numPerPage)
 		    		,end = begin + ctrl.numPerPage;
