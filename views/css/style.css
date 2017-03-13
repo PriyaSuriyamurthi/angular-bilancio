@@ -113,7 +113,7 @@ font-size: 18px;
     text-align: left;
 }
 
-.placeholders >.alert {
+.placeholders >info-message >.alert {
     padding: 0px;
 }
 
@@ -172,6 +172,10 @@ font-size: 18px;
     color: #f5f5f5;
 }
 
+.errorMessage {
+    color:red;
+}
+
 .placeholder p,
 .placeholder a
  {
@@ -179,6 +183,36 @@ font-size: 18px;
     color:#fff;
 }
 
+.createNewModal .modal-content {
+    width: 60%;
+    margin: 0 auto;
+}
+
+#billCreate {
+    margin:0 auto;
+    width: 70%;
+}
+
+.inputNew {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    outline: none;
+    display: block;
+    width: 100%;
+    padding: 7px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    background: transparent;
+    margin-bottom: 10px;
+    font: 16px Arial, Helvetica, sans-serif;
+    height: 45px;
+}
+
+#billCreate textarea {
+     resize:none;
+    overflow: hidden;
+}
 @media (max-width: 767px)
 {
     .placeholder,

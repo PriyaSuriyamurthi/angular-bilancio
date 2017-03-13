@@ -2,10 +2,7 @@
    <div ng-controller="BillShellController as billshell">
       <h2 class="page-header "> BillShell </h2>
       <div class="row placeholders" >
-         <div ng-if="billshell.shellMessage" class="alert alert-info alert-dismissable fade in" class="alertMessage">
-            <strong>Info!</strong> {{billshell.shellMessage}}
-            <button type="button" class="btn" class="close" id="btn-alert" data-dismiss="alert">×</button>
-         </div>
+         <info-message ng-if="billshell.shellMessage" message="billshell.shellMessage"></info-message>
          <div class="col-sm-9 col-md-3 placeholder" 
             ng-repeat="shell in billshell.billShell" 
             ng-style="{background:billshell.getRandomColor(shell,$index)}">
