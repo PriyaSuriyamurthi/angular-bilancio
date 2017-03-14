@@ -17,7 +17,7 @@ function BillController(BillService,$stateParams,$scope,$state,$filter) {
 	           color += colors[index%colors.length];
 	           item.color = color;
 	           return color;	             
-   	}
+   	};
    	ctrl.toggleModal = function(btnClicked,bill,index) {
         $scope.buttonClicked = btnClicked;
         $scope.showModal = !$scope.showModal;
@@ -41,7 +41,7 @@ function BillController(BillService,$stateParams,$scope,$state,$filter) {
 			ctrl.comments = bill.comments;
 			ctrl.CreateEdit = 'update';
 		}
-    }
+    };
   	ctrl.billModify =function() {
   		var newBill = {};
   		newBill.billShell_id = ctrl.shellID;
@@ -57,7 +57,7 @@ function BillController(BillService,$stateParams,$scope,$state,$filter) {
 			ctrl.billList.push(response);
 			ctrl.billMessage ='New Bill was added';
 			ctrl.listFilter();
-		})
+		});
 		ctrl.billMessage = '';
 		} else {
 			BillService.update(newBill,ctrl.billID).then(function(response) {
@@ -69,20 +69,20 @@ function BillController(BillService,$stateParams,$scope,$state,$filter) {
 				}
 				ctrl.billMessage ='Bill was updated';
 				ctrl.listFilter();
-			})
+			});
 		}
 		ctrl.billCreate.$setPristine();
       	ctrl.billCreate.$setUntouched();
       	ctrl.billCreate.$submitted = false;
 
-  	}
+  	};
   	ctrl.deleteBill = function(bill,index) {
   		BillService.remove(bill.billShell_id,bill._id).then(function(response) {
   			ctrl.billMessage ='Bill was removed';
   			ctrl.billList.splice(index,1);
   			ctrl.listFilter();
-  		})
-  	}
+  		});
+  	};
 	ctrl.fetchBills = function() {
 		ctrl.billList.length=0;
 		BillService
@@ -90,17 +90,16 @@ function BillController(BillService,$stateParams,$scope,$state,$filter) {
 		.then(function(response) {
 			ctrl.billList = response;
 			ctrl.listFilter();
-		})	
-	}
+		});
+	};
 	ctrl.listFilter = function() {
 		ctrl.filteredList.length = 0;
 		$scope.$watch('currentPage + numPerPage',function(){
-				var begin = ((ctrl.currentPage - 1) * ctrl.numPerPage)
-		    		,end = begin + ctrl.numPerPage;
+				var begin = ((ctrl.currentPage - 1) * ctrl.numPerPage);
+		    	var end = begin + ctrl.numPerPage;
 		    	ctrl.filteredList = ctrl.billList.slice(begin,end);
-			})
-		
-	} 
+			});
+	};
 	ctrl.fetchBills();
 }
 angular

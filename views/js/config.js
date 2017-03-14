@@ -20,4 +20,4 @@ angular
 				templateUrl: 'view/billShellView.html'
 			});
 			$urlRouterProvider.otherwise('/dashboard');
-})
+});

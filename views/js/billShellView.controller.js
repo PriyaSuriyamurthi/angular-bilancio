@@ -7,8 +7,8 @@ function billShellView(BillShellService,$scope) {
 	this.getBillShell = function() {
 		BillShellService.retrieve().then(function(response) {
 				ctrl.billShell = response;
-		})
-	}
+		});
+	};
 	this.getRandomColor = function(item,index){
 		var colors = ['#3175b0','#58b358','#52bcdc',
 					  '#efa741','#d24844'];
@@ -20,25 +20,25 @@ function billShellView(BillShellService,$scope) {
 	           color += colors[index%colors.length];
 	           item.color = color;
 	           return color;	             
-    }
+    };
     $scope.toggleModal = function(btnClicked,shell,index){
         $scope.buttonClicked = btnClicked;
         $scope.shell = shell;
         $scope.index = index;
         $scope.showModal = !$scope.showModal;
-    }
+    };
     this.deleteShell = function(shell,index) {
     	BillShellService.deleteshell(shell).then(function(response) {
     		ctrl.shellMessage ="Shell deleted Successfully!!!";
     		ctrl.billShell.splice(index,1);
     	},function(error) {
     		ctrl.shellMessage ="Error deleting the shell";
-    	})
+    	});
     	ctrl.shellMessage ="";
-    }
+    };
     this.shellSubmit = function() {
     	var createDetails = {"login_id": "58b4bb8b428f652285bb62b4",
-    						"owner": "priya.suriyamurthi@gmail.com"}
+    						"owner": "priya.suriyamurthi@gmail.com"};
     	createDetails.sheetName = this.shellNew;
     	BillShellService.create(createDetails).then(function(response){
 		ctrl.billShell.push(response);
@@ -46,8 +46,8 @@ function billShellView(BillShellService,$scope) {
 		$scope.shellCreate.$setPristine();
       	$scope.shellCreate.$setUntouched();
       	$scope.shellCreate.$submitted = false;
-       	})
-    }
+       	});
+    };
     this.getBillShell();
 }
 angular
