@@ -1,1 +1,0 @@
-function mainController(l){this.billHeader=["billType","description","itemAmount","date","action"],this.shellID=l.shellID}angular.module("bilancio").controller("MainController",mainController);
