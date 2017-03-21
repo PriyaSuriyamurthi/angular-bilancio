@@ -1,122 +1,109 @@
-// gulp
-var gulp = require('gulp');
+'use strict';
 
-// plugins
-var connect = require('gulp-connect');
-var jshint = require('gulp-jshint');
-var uglify = require('gulp-uglify');
-var minifyCSS = require('gulp-minify-css');
-var htmlmin = require('gulp-htmlmin');
-var del = require('del');
-var runSequence = require('run-sequence');
-var concat = require('gulp-concat');
-var imagemin = require('gulp-imagemin');
-var cache = require('gulp-cache');
+var gulp = require('gulp'),
+    jshint = require('gulp-jshint'),
+    source = require('vinyl-source-stream'),
+    browserify = require('browserify'),
+    concat = require('gulp-concat'),
+    sass = require('gulp-sass'),
+    autoprefixer = require('gulp-autoprefixer'),
+    refresh = require('gulp-livereload'),
+    cache = require('gulp-cache'),
+    imagemin = require('gulp-imagemin'),
+    livereload = require('gulp-livereload'),
+    nodemon = require('gulp-nodemon'),
+    lr = require('tiny-lr'),
+    server = lr();
 
+var expressServer = require('./server');
+gulp.task('serve_', function() {
+  console.log('Server');
+  expressServer.startServer();
+});
 
-// tasks
+gulp.task('serve', function () {
+  nodemon({ script: 'server.js', env:{
+            PORT:8000
+        }, ext: 'js html', ignore: ['views/*', 'node_modules/*'], })
+  .on('change', ['lint'])
+  .on('restart', function () {
+    console.log('Restarted webserver')
+  });
+});
+
+// Dev task
+gulp.task('dev', ['views', 'styles', 'images', 'lint', 'browserify', 'watch'], function() {});
+
+// JSLint task
 gulp.task('lint', function() {
-  gulp.src(['./views/**/*.js', '!./node_modules/**'])
-    .pipe(jshint({ esversion: 6 }))
-    .pipe(jshint.reporter('default'))
-    .pipe(jshint.reporter('fail'));
-});
-gulp.task('clean', function() {
-    return del.sync('./dist');
+  gulp.src('./views/js/*.js')
+  .pipe(jshint())
+  .pipe(jshint.reporter('default'))
+  .pipe(gulp.dest('./dist/js/'));
 });
 
-var concat = require('gulp-concat');
-        var uglify = require('gulp-uglify');
-        var minifyJS = require('gulp-minify');
-        gulp.task('concat', function() {
-          return gulp.src('views/js/*.js')
-            .pipe(minifyJS())
-            .pipe(concat('bundle.min.js'))
-            .pipe(uglify({ mangle: false }))
-            .pipe(gulp.dest('./dist/'));
-        });
-
-gulp.task('minify-css', function() {
-  var opts = {comments:true,spare:true};
-  gulp.src(['./views/css/*.css', '!./node_modules/**'])
-    .pipe(minifyCSS(opts))
-    .pipe(gulp.dest('./dist/css/'))
-});
-gulp.task('minify-js', function() {
-  gulp.src(['./views/**/*.js', '!./node_modules/**','!./font-awesome/**'])
-    .pipe(uglify({
-      // inSourceMap:
-      // outSourceMap: "app.js.map"
-    }))
-    .pipe(gulp.dest('./dist/'))
-});
-gulp.task('minify-js-app', function() {
-  gulp.src('./views/app.js')
-    .pipe(uglify({
-      // inSourceMap:
-      // outSourceMap: "app.js.map"
-    }))
-    .pipe(gulp.dest('./dist/'))
+// Styles task
+gulp.task('styles', function() {
+  gulp.src('./views/css/*.css')
+  // The onerror handler prevents Gulp from crashing when you make a mistake in your SASS
+  .pipe(sass({onError: function(e) { console.log(e); } }))
+  // Optionally add autoprefixer
+  .pipe(autoprefixer('last 2 versions', '> 1%', 'ie 8'))
+  // These last two should look familiar now :)
+  .pipe(gulp.dest('dist/css/'));
 });
 
+// Browserify task
+gulp.task('browserify', function() {
+  var bundleStream = browserify({
+    entries: ['./views/app.js'],
+    debug: true
+  }).bundle().pipe(source('app.js'));
+  return bundleStream.pipe(gulp.dest('./dist'));
+});
 
-gulp.task('copy-images', function() {
+gulp.task('images', function() {
   return gulp.src('views/images/**/*')
-    .pipe(cache(imagemin({ optimizationLevel: 5, progressive: true, interlaced: true })))
+    .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
+    .pipe(livereload(server))
     .pipe(gulp.dest('dist/images'));
 });
 
-gulp.task('copy-node-modules', function () {
-  gulp.src('!./node_modules/**')
-    .pipe(gulp.dest('dist/node_modules'));
-});
-
-gulp.task('copy-font-awesome', function () {
-  gulp.src('!./font-awesome/**')
-    .pipe(gulp.dest('dist/font-awesome'));
-});
-
-gulp.task('copy-html-files', function () {
-  gulp.src('./views/view/*.html')
-    .pipe(htmlmin({collapseWhitespace: true}))
-    .pipe(gulp.dest('dist/view/'));
-});
-
-gulp.task('copy-html-index', function () {
+// Views task
+gulp.task('views', function() {
+  // Get our index.html
   gulp.src('./views/index.html')
-    .pipe(htmlmin({collapseWhitespace: true}))
-    .pipe(gulp.dest('dist/'));
+  // And put it in the public folder
+  .pipe(gulp.dest('dist/'));
+
+  // Any other view files from client/views
+  gulp.src('./views/view/**/*')
+  // Will be put in the public/views folder
+  .pipe(gulp.dest('./dist/view/'));
 });
 
-gulp.task('watch', function() {
-   // Watch .js files
-  gulp.watch('/views' + 'js/*.js', ['minify-js']);
-   // Watch .html files
-  gulp.watch('/views' + 'view/*.html', ['copy-html-files']);
-   // Watch image files
-  gulp.watch('/views' + 'images/**/*', ['copy-images']);
- });
-gulp.task('connect', function () {
-  connect.server({
-    root: '/',
-    port: 8000
-  });
-});
-gulp.task('connectDist', function () {
-  connect.server({
-    root: '/',
-    port: 8080
-  });
+gulp.task('watch', ['serve', 'lint'], function() {
+  // Start live reload server
+  refresh.listen();
+
+  // Watch our scripts, and when they change run lint and browserify
+  gulp.watch(['./views/**.js', './views/js/*.js'],[
+    'lint',
+    'browserify'
+  ]);
+
+  // Watch our sass files
+  gulp.watch(['./views/css/*.css'], [
+    'styles'
+  ]);
+
+  // Watch view files
+  gulp.watch(['./views/view/*.html'], [
+    'views'
+  ]);
+
+  gulp.watch('./dist/**').on('change', refresh.changed);
+
 });
 
-
-// default task
-gulp.task('default',
-  ['lint', 'connect']
-);
-gulp.task('build', ['clean'],function() {
-  runSequence(
-    ['lint', 'minify-css','minify-js-app', 'minify-js', 'concat','copy-html-files',
-    'copy-html-index', 'copy-node-modules', 'copy-font-awesome','copy-images','watch','connectDist']
-  );
-});
+gulp.task('default', ['dev']);
